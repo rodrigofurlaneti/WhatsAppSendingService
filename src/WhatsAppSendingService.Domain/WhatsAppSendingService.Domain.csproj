@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>WhatsAppSendingService.Domain</RootNamespace>
+  </PropertyGroup>
+  <!-- Domain has ZERO external dependencies (enforced by ArchTests) -->
+</Project>
