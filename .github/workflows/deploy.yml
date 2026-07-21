@@ -1,9 +1,11 @@
 name: Deploy to Azure VM
 
-# Este repo nao tem workflow de CI separado, entao o deploy dispara
-# direto no push da main (ou manualmente).
+# Dispara apos o workflow "CI" (build + testes) passar na main,
+# ou manualmente pela aba Actions.
 on:
-  push:
+  workflow_run:
+    workflows: [ "CI" ]
+    types: [ completed ]
     branches: [ main ]
   workflow_dispatch:
 
@@ -15,6 +17,9 @@ jobs:
   build-and-push:
     name: Build & Push image (GHCR)
     runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
     permissions:
       contents: read
       packages: write
