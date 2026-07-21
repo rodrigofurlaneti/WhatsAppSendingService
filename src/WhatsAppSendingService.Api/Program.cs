@@ -16,11 +16,15 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+// Swagger habilitado em todos os ambientes (dev, staging e produção).
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
 
+if (app.Environment.IsDevelopment())
+{
     // Auto-migrate in dev for a friction-free first run.
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
